@@ -3,7 +3,7 @@ const { channels } = require('../config.json');
 const { sendRcon } = require('../helpers/rcon');
 
 module.exports = {
-  args: true,
+  args: 'optional',
   name: 'reset',
   description: 'Reset a player and their Minecraft username!',
   cooldown: 0,
@@ -24,15 +24,18 @@ module.exports = {
       sendRcon(`whitelist remove ${player.minecraftUser}`);
       removePlayer(player.discordID);
 
-      message.reply('Player has been reset.');
+      message.reply('That account has been reset.');
     } else {
       let player = {};
       player = getPlayer(message.author.id);
 
+// Fix an issue where there's no player whitelisted
+      if(undefined === player) { message.reply('I could not find an account to reset. Try `join` again.'); }
+
       sendRcon(`whitelist remove ${player.minecraftUser}`);
       removePlayer(player.discordID);
 
-      message.reply('Your whitelist account has been reset.');
+      message.reply('Your account has been reset.');
     }
   },
 };

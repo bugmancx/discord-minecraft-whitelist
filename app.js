@@ -69,7 +69,8 @@ client.on('message', (message) => {
     return;
   }
 
-  if (command.args && !args.length) {
+  if (command.args && command.args !== 'optional' && !args.length) {
+//  if (command.args && !args.length) {
     let reply = `You didn't provide any arguments, ${message.author}!`;
 
     if (command.usage) {
@@ -111,7 +112,8 @@ client.on('message', (message) => {
     command.execute(message, args, db);
   } catch (error) {
     console.error(error);
-    message.reply('there was an error trying to execute that command!');
+// Temporarily disabling until I find a fix for the arguments issue
+//    message.reply('there was an error trying to execute that command!');
   }
 });
 
