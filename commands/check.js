@@ -3,8 +3,7 @@ const { channels } = require('../config.json');
 
 module.exports = {
   name: 'check',
-  description: 'Run a manual check of the whitelist!',
-  cooldown: 0,
+  description: 'Run a manual check of the allowlist!',
   guildOnly: true,
   excludeFromHelp: true,
   execute(message, args) {

@@ -5,7 +5,7 @@ const { subRole, address } = require('../config.json');
 module.exports = {
   args: true,
   name: 'join',
-  description: 'Add yourself to the server whitelist!',
+  description: 'Add yourself to the server allowlist!',
   aliases: ['add'],
   usage: '<minecraftusername>',
   cooldown: 0,
@@ -23,7 +23,7 @@ module.exports = {
 
     if (player.whitelisted) {
       message.reply(
-        'You have already whitelisted an account on the server. Please contact a moderator if you need to change your username or if this is an error;'
+        'You already have have already have an account on the server\'s allowlist. To correct this, try `!mc reset` to remove it, and then try again with `!mc join`.'
       );
       return;
     }
@@ -33,7 +33,7 @@ module.exports = {
         updatePlayer(id, { subbed: true, cyclesSinceSubLost: false });
       } else {
         message.reply(
-          'You cannot join as you do not have the subscriber role. Please contact a moderator if this is an error.'
+          'You need to have the `SMP` role in order to be able to access the server.'
         );
         return;
       }
@@ -42,20 +42,19 @@ module.exports = {
     sendRcon(`whitelist add ${args[0]}`).then((reply) => {
       let encodedReply = JSON.parse(JSON.stringify(reply));
       const expectedReplies = [
+// Note: These are server responses
         `added ${args[0]} to the whitelist`.toLowerCase().trim(),
         `§a${args[0]} has been added to the whitelist.`.toLowerCase().trim(),
       ];
       console.log(expectedReplies);
       if (expectedReplies.includes(encodedReply.toLowerCase().trim())) {
         updatePlayer(id, { whitelisted: true });
-        message.reply("You've been added to the whitelist!");
+        message.reply("Your account has been added!");
         message.author.send(
-          'You can join the server at the following address: \n' +
-            `\`${address}\``
-        );
+          'Thanks for your interest in joining bugmancx\'s free Minecraft SMP servers!\n\nYour account has now been activated and will give you access to both public servers.\n\nPlease take a moment to familiarise yourself with the rules posted in the #👉welcome-smp channel. You will also find instructions on how to join each server in its respective FAQ channel.\n\nPlease enjoy yourself and reach out if you have any questions.');
       } else {
         message.reply(
-          'There was an error adding you to the whitelist. The server returned this message: ' +
+          'There was an error adding you to the allowlist. The server returned this message: ' +
             reply
         );
       }
