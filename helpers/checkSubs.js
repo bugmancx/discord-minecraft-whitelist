@@ -31,7 +31,7 @@ const checkSubs = () => {
 
         if (discordMember.roles.cache.has(config.subRole)) {
           console.log(
-            `${player.minecraftUser} is subscribed, ensuring they're on the whitelist`
+            `${player.minecraftUser} has SMP-Server role, ensuring they're on the whitelist`
           );
           updatePlayer(player.discordID, {
             subbed: true,
@@ -39,8 +39,68 @@ const checkSubs = () => {
           });
           sendRcon(`whitelist add ${player.minecraftUser}`);
 
+// ## FINSHED ADDED TO WHITELIST
+
+// ## CHECK NOW FOR OTHER LOGIC BEFORE PROCEEDING
+
+          if (discordMember.roles.cache.has(config.patreonRole)) {
+             console.log(` > ${player.minecraftUser} is a Patreon.`);
+             updatePlayer(player.discordID, {
+               patreon: true,
+             });
+             // Loop tiers
+
+             // DRAGONFLY
+             if (discordMember.roles.cache.has(config.patreonDragonflyRole)) {
+                console.log(` >> ${player.minecraftUser} is a Dragonfly Patreon. Updating player data.`);
+                updatePlayer(player.discordID, {
+                patreonTier: 'dragonfly',
+              });
+             }
+
+             // BUTTERFLY
+             if (discordMember.roles.cache.has(config.patreonButterflyRole)) {
+                console.log(` >> ${player.minecraftUser} is a Butterfly Patreon. Updating player data.`);
+                updatePlayer(player.discordID, {
+                patreonTier: 'butterfly',
+              });
+             }
+
+             // MANTIS
+             if (discordMember.roles.cache.has(config.patreonMantisRole)) {
+                console.log(` >> ${player.minecraftUser} is a Mantis Patreon. Updating player data.`);
+                updatePlayer(player.discordID, {
+                patreonTier: 'mantis',
+              });
+             }
+
+             // SCARAB
+             if (discordMember.roles.cache.has(config.patreonScarabRole)) {
+                console.log(` >> ${player.minecraftUser} is a Scarab Patreon. Updating player data.`);
+                updatePlayer(player.discordID, {
+                patreonTier: 'scarab',
+              });
+             }
+
+
+          } // else { // END PATREON LOGIC 
+              // Not patreon, remove that data
+ //                updatePlayer(player.discordID, {
+   //              patreonTier: 'false',
+     //            patreon: 'false',
+       //      }),
+//          }
+
+          if (!discordMember.roles.cache.has(config.patreonRole)) {
+             updatePlayer(player.discordID, {
+               patreon: false,
+               patreonTier: false,
+             });
+          }
+
           continue;
-        }
+
+        } // END SMP-SERVER ROLE LOGIC
 
         if (!player.whitelisted) {
           console.log(
@@ -114,3 +174,4 @@ const checkSubs = () => {
 };
 
 module.exports = checkSubs;
+

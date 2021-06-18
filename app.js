@@ -29,7 +29,7 @@ for (const file of commandFiles) {
 const cooldowns = new Discord.Collection();
 
 client.once('ready', () => {
-  console.clear();
+//  console.clear();
   console.log(`Logged in as ${client.user.tag}! Ready to start working.`);
 
   if (config.showPlayerNumbers) {
